@@ -21,7 +21,7 @@ public class StatsigDebugViewController: UIViewController, WKNavigationDelegate,
 
         var root: UIViewController?
 
-        #if !STATSIG_WIDGET_BUILD
+        #if !STATSIG_WIDGET_BUILD && !COCOAPODS
 
         if root == nil, #available(iOS 13.0, *) {
             let scene = UIApplication.shared.connectedScenes.first(where: { scene in

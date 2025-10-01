@@ -71,7 +71,7 @@ class PlatformCompatibility
     static let deviceInfo = DeviceInfo()
 
     static func getRootViewControllerClassName(_ callback: @escaping (_ name: String?) -> Void) {
-        #if STATSIG_WIDGET_BUILD
+        #if STATSIG_WIDGET_BUILD || COCOAPODS
             callback(nil)
         #else
             ensureMainThread { [callback] in

@@ -58,6 +58,10 @@ public struct Layer: ConfigBase, ConfigProtocol {
 
     internal let value: [String: Any]
 
+    public var keys: [String: Any].Keys {
+        return value.keys
+    }
+
     internal init(
         client: StatsigClient?,
         name: String,
@@ -144,12 +148,12 @@ public struct Layer: ConfigBase, ConfigProtocol {
     public func getValueImpl<T: StatsigDynamicConfigValue>(forKey key: String, defaultValue: T? = nil) -> T? {
         let returningLog = defaultValue == nil ? "nil" : "the defaultValue"
         guard let result = value[key] else {
-            print("[Statsig]: \(key) does not exist in this Layer. Returning \(returningLog).")
+            PrintHandler.log("[Statsig]: \(key) does not exist in this Layer. Returning \(returningLog).")
             return defaultValue
         }
         
         guard let result = result as? T else {
-            print("[Statsig]: \(key) exists in this Layer, but requested type was incorrect (Requested = \(type(of: T.self)), Actual = \(type(of: result))). Returning \(returningLog).")
+            PrintHandler.log("[Statsig]: \(key) exists in this Layer, but requested type was incorrect (Requested = \(type(of: T.self)), Actual = \(type(of: result))). Returning \(returningLog).")
             return defaultValue
         }
         

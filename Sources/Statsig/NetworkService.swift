@@ -159,6 +159,9 @@ class NetworkService {
             lock.lock()
             defer { lock.unlock() }
             
+            if let req = self?.inflightRequests[cacheKey.v2], req === task, req.state != .completed && req.state != .canceling {
+                req.cancel()
+            }
             self?.inflightRequests.removeValue(forKey: cacheKey.v2)
             
             guard !completed else { return }
@@ -273,10 +276,11 @@ class NetworkService {
     }
 
     func tryCompress(body: Data, forUser user: StatsigUser) -> CompressedBody  {
+        #if !os(watchOS)
         guard  !self.statsigOptions.disableCompression,
             !NetworkService.disableCompression,
             (self.statsigOptions.eventLoggingURL == nil
-            || self.store.getSDKFlags(user: user).enabledLogEventCompression)
+            || self.store.getSDKFlags(user: user).enableLogEventCompression)
         else {
             return CompressedBody(body: body, compression: .none)
         }
@@ -287,6 +291,7 @@ class NetworkService {
             case .failure(let error):
                 self.errorBoundary.logException(tag: "network_compression_gzip", error: error)
         }
+        #endif
 
         return CompressedBody(body: body, compression: .none)
     }

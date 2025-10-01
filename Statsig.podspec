@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "Statsig"
-  spec.version      = "1.53.1"
+  spec.version      = "1.53.11"
   spec.summary      = "Statsig enables developers to ship code faster and more safely."
   spec.description  = <<-DESC
                    Statsig enables developers to ship code faster and more safely by providing:
@@ -13,7 +13,7 @@ Pod::Spec.new do |spec|
                      and also run A/B tests to understand whether a new feature actually helps your product before shipping.
                    DESC
 
-  spec.homepage     = "https://github.com/statsig-io/ios-sdk"
+  spec.homepage     = "https://github.com/statsig-io/statsig-kit"
 
   spec.license      = { :type => "ISC", :file => "LICENSE" }
 
@@ -24,7 +24,7 @@ Pod::Spec.new do |spec|
   spec.tvos.deployment_target = "10.0"
   spec.watchos.deployment_target = "8.2"  
 
-  spec.source       = { :git => "https://github.com/statsig-io/ios-sdk.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "https://github.com/statsig-io/statsig-kit.git", :tag => "#{spec.version}" }
   spec.source_files  = "Sources/Statsig/**/*.swift"
   spec.resource_bundles  = {"Statsig" => ["PrivacyInfo.xcprivacy"]}
 
@@ -32,6 +32,7 @@ Pod::Spec.new do |spec|
 
   spec.test_spec 'Tests' do |test_spec|
       test_spec.source_files = 'Tests/StatsigTests/**/*.{swift}'
+      test_spec.platforms = { :ios => "10.0", :osx => "10.13", :tvos => "10.0" }
       test_spec.dependency 'Nimble'
       test_spec.dependency 'Quick'
       test_spec.dependency 'OHHTTPStubs'
